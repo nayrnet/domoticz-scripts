@@ -1,6 +1,5 @@
 #!/bin/sh
-
-sudo service domoticz.sh stop
+sudo systemctl domoticz stop
 echo "please standby... (waiting 8 seconds)"
 sleep 8
-sudo service domoticz.sh start
+sudo systemctl domoticz start
