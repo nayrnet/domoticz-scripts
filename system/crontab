@@ -1,0 +1,4 @@
+*/5 * * * * ~/bin/check_device_online.py 192.168.4.140 112 10 2700
+*/5 * * * * ~/bin/python/plexStatus.py
+*/5 * * * * find /tmp -name backup.db -type f -mmin +10 -delete
+*/5 * * * * find /tmp -name *.zip -type f -mmin +10 -delete
