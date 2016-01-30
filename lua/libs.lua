@@ -1,7 +1,7 @@
 -- Common Lua Functions I use in many scripts.. my personal library.
 -- sudo mkdir /usr/local/share/lua
 -- sudo mkdir /usr/local/share/lua/5.2
--- sudo ln -s libs.lua /usr/local/share/lua/5.2
+-- sudo ln -s /usr/local/share/lua/5.2 libs.lua
 
 local libs = {};
 
