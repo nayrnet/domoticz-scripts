@@ -1,0 +1,3 @@
+# put me in /etc/sudoers.d
+domoticz ALL=NOPASSWD: /bin/systemctl stop domoticz,/bin/systemctl start domoticz,/bin/systemctl restart domoticz
+
