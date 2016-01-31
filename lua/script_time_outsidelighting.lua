@@ -15,7 +15,7 @@ end
 if (otherdevices['Front Security Lights'] ~= 'Off') and (libs.timedifference(otherdevices_lastupdate['Front Security Lights']) >= 3600)
 	and ((time.hour >= 0) or (time.hour < 12)) and (otherdevices['TV'] == 'Off') then
 		commandArray['Front Security Lights']='Off'
-elseif (otherdevices['Front Door Light'] == 'Off') and ((time.hour <= 23) and (time.hour > 12)) and (timeofday['Nighttime']) then
+elseif (otherdevices['Front Security Lights'] == 'Off') and ((time.hour <= 23) and (time.hour > 12)) and (timeofday['Nighttime']) then
 		commandArray['Front Security Lights']='On'
 end
 
