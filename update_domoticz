@@ -4,5 +4,5 @@ git reset --hard origin/master
 git pull
 time make -j4
 rm -Rf ~/domoticz/scripts
-ln -s ~/domoticz/scripts ~/bin
+ln -s ~/bin ~/domoticz/scripts
 restart_domoticz
