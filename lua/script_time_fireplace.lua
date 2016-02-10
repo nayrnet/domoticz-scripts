@@ -6,8 +6,10 @@ time = os.date("*t")
 if (otherdevices['Fireplace'] ~= 'Off') and ((time.hour >= 22) or (time.hour < 7)) and (otherdevices['TV'] == 'Off') then
 		commandArray['Fireplace']='Off' 
 elseif (otherdevices['Fireplace'] == 'Off') and (time.hour < 22) and (time.hour > 6) and (otherdevices_temperature['Online Weather'] < 50) then
+	if (tonumber(uservariables["away"]) < 1) then
 		commandArray['Fireplace']='On'
 		print('Its cold outside, turning on fireplace..')
+	end
 end
 
 -- Fireplace: Shutoff if its warmer than 60F outside
