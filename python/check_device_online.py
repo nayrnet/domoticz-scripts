@@ -16,13 +16,14 @@ import json
 import base64
  
 # Settings for the domoticz server
-domoticzserver="192.168.2.1:8080"
-domoticzusername = "admin"
-domoticzpassword = "admin"
- 
+domoticzserver="127.0.0.1:8080"
+domoticzusername = "dev"
+domoticzpassword = "dev"
+passcode = "dread"
+
 # If enabled. The script will log to the file _.log
 # Logging to file only happens after the check for other instances, before that it only prints to screen.
-log_to_file = False
+log_to_file = True
  
 # The script supports two types to check if another instance of the script is running.
 # One will use the ps command, but this does not work on all machine (Synology has problems)
@@ -80,7 +81,7 @@ def domoticzstatus ():
   switchfound = False
   if json_object["status"] == "OK":
     for i, v in enumerate(json_object["result"]):
-      if json_object["result"][i]["idx"] == switchid and "Lighting" in json_object["result"][i]["Type"] :
+      if json_object["result"][i]["idx"] == switchid and "Switch" in json_object["result"][i]["Type"] :
         switchfound = True
         if json_object["result"][i]["Status"] == "On": 
           status = 1
@@ -112,7 +113,7 @@ while 1==1:
   if currentstate == 0 and currentstate != previousstate and lastreported != 1 :
     if domoticzstatus() == 0 :
       log (datetime.datetime.now().strftime("%H:%M:%S") + "- " + device + " online, tell domoticz it's back")
-      domoticzrequest("http://" + domoticzserver + "/json.htm?type=command&param=switchlight&idx=" + switchid + "&switchcmd=On&level=0")
+      domoticzrequest("http://" + domoticzserver + "/json.htm?type=command&param=switchlight&idx=" + switchid + "&switchcmd=On&level=0&passcode=" + passcode)
     else:
       log (datetime.datetime.now().strftime("%H:%M:%S") + "- " + device + " online, but domoticz already knew")
     lastreported=1
@@ -123,7 +124,7 @@ while 1==1:
   if currentstate == 1 and (datetime.datetime.now()-lastsuccess).total_seconds() > float(cooldownperiod) and lastreported != 0 :
     if domoticzstatus() == 1 :
       log (datetime.datetime.now().strftime("%H:%M:%S") + "- " + device + " offline, tell domoticz it's gone")
-      domoticzrequest("http://" + domoticzserver + "/json.htm?type=command&param=switchlight&idx=" + switchid + "&switchcmd=Off&level=0")
+      domoticzrequest("http://" + domoticzserver + "/json.htm?type=command&param=switchlight&idx=" + switchid + "&switchcmd=Off&level=0&passcode=" + passcode)
     else:
       log (datetime.datetime.now().strftime("%H:%M:%S") + "- " + device + " offline, but domoticz already knew")
     lastreported=0
