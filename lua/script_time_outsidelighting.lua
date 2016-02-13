@@ -17,7 +17,7 @@ end
 if (otherdevices['Back Door Light'] ~= 'Off') and (libs.timedifference(otherdevices_lastupdate['Back Door Light']) >= 1800)
 	and ((time.hour >= 22) or (time.hour < 12)) and (otherdevices['TV'] == 'Off') then
 		commandArray['Back Door Light']='Off' 
-elseif (otherdevices['Back Door Light'] == 'Off') and (time.hour < 22) and (time.hour > 12) and (timeofday['Nighttime']) then
+elseif (otherdevices['Back Door Light'] == 'Off') and (time.hour < 22) and (time.hour > 12) and (timeofday['Nighttime']) and (otherdevices['Patio Lighting'] ~= 'On') then
 		commandArray['Back Door Light']='On'
 end
 
