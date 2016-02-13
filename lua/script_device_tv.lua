@@ -2,7 +2,7 @@
 commandArray = {}
 if (devicechanged['TV'] == 'NVR') then
 	-- WestPTZ Preset
-	commandArray['OpenURL']='ptz:ptz@192.168.42.21/cgi-bin/ptz.cgi?action=start&channel=0&code=GotoPreset&arg1=0&arg2=1&arg3=0'
+	commandArray['West PTZ']='Front Yard'
 elseif (devicechanged['TV'] == 'FM') then
 	-- Extended Stereo
 	commandArray['Receiver'] = 'Set Level 70'
