@@ -1,7 +1,10 @@
--- simply reset the newmail variable every day before the mail arrives.
+-- simply reset the newmail variable every typical postal day a few hours before the mail typically arrives.
+
 time = os.date("*t")
+day = os.date("%A")
+
 commandArray = {}
-if (time.hour == 13) and (time.min == 15) then
+if (time.hour == 13) and (time.min == 15) and (day ~= 'Sunday') then
         commandArray['Variable:newmail']="0"
 end
 return commandArray

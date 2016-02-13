@@ -18,7 +18,7 @@ difference = (os.difftime (t1, t2))
 
 if (otherdevices['Back Door'] == 'Open' and difference > 299 and difference < 360) then
 	commandArray['SendNotification']='Perimeter Warning#The back door has been open for more than 5 mins..'
-	os.execute('espeak "Warning, the back door has been open for more than 5 minutes"')
+        os.execute('ogg123 -q ~/audio/backdoor.ogg')
 	commandArray['UpdateDevice']='24|0|60'
 	print("Back door left open, adjusting heater setpoint to 60F")
 elseif (otherdevices['Back Door'] == 'Open' and difference > 361 and heater ~= '15.56') then
