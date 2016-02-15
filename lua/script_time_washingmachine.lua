@@ -38,7 +38,7 @@ if ((uservariables[washer_status_uservar] == 1) and uservariables[washer_counter
   print('Washingmachine is done, please go empty it!')
   commandArray['SendNotification']='Cycle Ended: Washing Machine#The load in the washing machine has finsihed, please move it to the dryer!#0'                                         
   commandArray['Variable:' .. washer_status_uservar]='0'
-  os.execute('ogg123 -q ~/audio/washingmachine.ogg')
+  os.execute('ogg123 -q ~/audio/alert-prefix.ogg ~/audio/washingmachine.ogg')
 end
 
 return commandArray

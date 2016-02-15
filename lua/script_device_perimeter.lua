@@ -6,8 +6,8 @@ device = next(devicechanged)
 -- Perimeter Monitoring
 if (tonumber(uservariables["away"]) > 0) and (perimeterArray[device]) and ((devicechanged[device] == 'On') or (devicechanged[device] == 'Open')) then
 	print('** Perimeter Breach while Away **')
+	os.execute('ogg123 -q ~/audio/siren.ogg &')
 	commandArray['SendNotification'] 	= 'Security Alert#The ' .. device .. ' was just accessed while you were away.#1'
-	commandArray['TV'] 			= 'Set Level 40'
 	commandArray['WebCam'] 			= 'On AFTER 30'
 	commandArray['Front Door Light'] 	= 'On' 
 	commandArray['Front Security Lights'] 	= 'On' 
