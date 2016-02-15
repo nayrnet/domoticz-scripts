@@ -10,6 +10,7 @@ if (otherdevices["Ryans Android"] == "On") or (otherdevices["Cassidis iPhone"] =
 elseif (otherdevices["Ryans Android"] == "Off") and (otherdevices["Cassidis iPhone"] == "Off") then
 	if (tonumber(uservariables["away"]) < 1) then
 		commandArray["Variable:WestPTZ-IdlePreset"]="10"
+		commandArray["West PTZ"]="Set Level 10"
 		commandArray["Variable:away"]="1"
 		print("Away mode active")
 	end
