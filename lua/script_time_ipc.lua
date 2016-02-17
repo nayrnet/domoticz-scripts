@@ -18,7 +18,7 @@ elseif (timeofday['Daytime']) and (tonumber(uservariables["WestPTZ-IdlePreset"])
 end
 
 -- Day/Night Video Profile Switching
-if (mins == timeofday['SunsetInMinutes'] + 30) then
+if (mins == timeofday['SunsetInMinutes'] + 10) then
 	print("Switching Outdoor Cameras to Night Profile.")
 	commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
 	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
