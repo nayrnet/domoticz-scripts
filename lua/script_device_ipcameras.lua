@@ -8,7 +8,7 @@ sRainmeterCurrent, sRainmeterTotal = otherdevices_svalues['Rain Fall']:match("([
 sWindGust = tonumber(sWindGust)
 sRainmeterCurrent = tonumber(sRainmeterCurrent)
 if (sWindGust > 5) then notWindy = false else notWindy = true end
-if (sRainmeterCurrent) then noRain = true else noRain = false end
+if (sRainmeterCurrent) then noRain = false else noRain = true end
 
 -- Motion Sensor: Back Parking
 if (devicechanged['MD Back Parking'] == 'On') and (libs.timedifference(uservariables_lastupdate['md-backpark']) > 900) and (notWindy) and (noRain) then
