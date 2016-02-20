@@ -2,7 +2,7 @@
 commandArray = {}
 if (devicechanged['Mailbox'] == 'On') then
 	commandArray[1]={['West PTZ']='Set Level 70'}
-	commandArray[2]={['West PTZ']='Set Level 10 AFTER 10'}
+        commandArray[2]={['West PTZ']='Set Level ' .. uservariables["WestPTZ-IdlePreset"] .. ' AFTER 10'}
 	if (tonumber(uservariables["newmail"]) == 0) then
 		commandArray[3]={['Variable:newmail']='1'}
 		commandArray[4]={['SendNotification']='Mail Dispatch#Todays post was just delivered.#0'}
