@@ -69,5 +69,11 @@ if (devicechanged['MD East IPC'] == 'On') and (otherdevices['Front Door Light'] 
 	end
 end
 
+-- PTZ Preset: Backdoor only when Away
+if (devicechanged['Back Door'] == 'Open') and (tonumber(uservariables["away"]) > 0) then
+	commandArray[1]={['West PTZ']='Set Level 50'}
+	commandArray[2]={['West PTZ']='Set Level 40 AFTER 30'}
+        commandArray[3]={['West PTZ']='Set Level ' .. uservariables["WestPTZ-IdlePreset"] .. ' AFTER 120'}
+end
 
 return commandArray
