@@ -3,7 +3,9 @@
 commandArray = {}
 if (otherdevices["Ryans Android"] == "On") or (otherdevices["Cassidis iPhone"] == "On") then
 	if (tonumber(uservariables["away"]) > 0) then
-		commandArray["Variable:WestPTZ-IdlePreset"]="60"
+		if (timeofday['Nighttime']) then
+			commandArray["Variable:WestPTZ-IdlePreset"]="60"
+		end
 		commandArray["Variable:away"]="0"
 		print("Away mode inactive")
 	end
