@@ -7,4 +7,9 @@ elseif (devicechanged['Front Door'] == 'Open') and (timeofday['Daytime']) then
 	commandArray['Front Door Light']='Off'
 	commandArray['Front Security Lights']='Off'
 end
+
+if (devicechanged['Front Door'] == 'Open') and (otherdevices['Security Display'] == 'Off') then
+        commandArray['Security Display']='On FOR 600'
+end
+
 return commandArray

@@ -72,8 +72,16 @@ end
 -- PTZ Preset: Backdoor only when Away
 if (devicechanged['Back Door'] == 'Open') and (tonumber(uservariables["away"]) > 0) then
 	commandArray[1]={['West PTZ']='Set Level 50'}
-	commandArray[2]={['West PTZ']='Set Level 40 AFTER 30'}
-        commandArray[3]={['West PTZ']='Set Level ' .. uservariables["WestPTZ-IdlePreset"] .. ' AFTER 120'}
+elseif (devicechanged['Back Door'] == 'Closed') and (tonumber(uservariables["away"]) > 0) then
+	commandArray[1]={['West PTZ']='Set Level 40 AFTER 15'}
+        commandArray[2]={['West PTZ']='Set Level ' .. uservariables["WestPTZ-IdlePreset"] .. ' AFTER 120'}
+end
+
+-- PTZ Preset: Front Door
+if (devicechanged['Front Door'] == 'Open') then
+	commandArray[1]={['North PTZ']='Set Level 20'}
+elseif (devicechanged['Front Door'] == 'Closed') then
+	commandArray[1]={['North PTZ']='Set Level 10 AFTER 5'}
 end
 
 return commandArray

@@ -9,6 +9,9 @@ libs = require("libs")	-- Include common functions
 if (libs.timedifference(otherdevices_lastupdate['West PTZ']) > 600) then
 	commandArray['West PTZ']='Set Level ' .. uservariables["WestPTZ-IdlePreset"]
 end
+if (libs.timedifference(otherdevices_lastupdate['North PTZ']) > 600) then
+	commandArray['North PTZ']='Set Level ' .. uservariables["NorthPTZ-IdlePreset"]
+end
 
 -- PTZ Idle Preset for Day/Evening
 if (timeofday['Nighttime']) and (tonumber(uservariables["WestPTZ-IdlePreset"]) ~= 60) and (tonumber(uservariables["away"]) < 1) and (time.hour >= 20) then
@@ -23,15 +26,29 @@ end
 if (mins == timeofday['SunsetInMinutes'] + 10) then
 	print("Switching Outdoor Cameras to Night Profile.")
 	commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
-	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
+	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
 	commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@south-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
 	commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@east-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
+	-- WestPTZ needs to be kicked into BackLight mode at night
+	commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=1' }
 elseif (mins == timeofday['SunriseInMinutes'] - 10) then
 	print("Switching Outdoor Cameras to Day Profile.")
 	commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
-	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
+	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
 	commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@south-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
 	commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@east-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
+	-- WestPTZ needs to be kicked into BackLight mode at night
+	commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=0' }
+end
+
+-- Outdoor Temp OSD
+ODtemp = (otherdevices_temperature['Online Weather'] * 9) / 5 + 32
+ODtemp = libs.round(ODtemp,1)
+if (ODtemp ~= tonumber(uservariables["ODTemp"])) then
+        commandArray["Variable:ODTemp"]=tostring(ODtemp)	
+        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoWidget[0].CustomTitle[1].Text=' .. tostring(ODtemp) .. 'F' }
+	print('Updating temp on cam osd')
 end
 
 return commandArray
+

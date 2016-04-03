@@ -28,4 +28,12 @@ function libs.urlencode(str)
    return str
 end
 
+function libs.round(val, decimal)
+  if (decimal) then
+    return math.floor( (val * 10^decimal) + 0.5) / (10^decimal)
+  else
+    return math.floor(val+0.5)
+  end
+end
+
 return libs

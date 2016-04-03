@@ -10,5 +10,6 @@ if (devicechanged['Bed Safe'] == 'Open') and (timeofday['Nighttime']) then
 	commandArray['Mudroom']='Set Level 100'
 	commandArray['Front Door Light']='On'
 	commandArray['Front Security Lights']='On'
+	commandArray['Security Display']='On'
 end
 return commandArray
