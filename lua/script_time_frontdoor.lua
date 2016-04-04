@@ -12,7 +12,7 @@ end
 
 -- Force Door to lock after 5mins (zwave funkyness)
 if (otherdevices['Front Door'] == 'Closed') and ((doorChanged > 299) and (doorChanged < 361)) then
-	commandArray[1]={['OpenURL']='localhost:8080/json.htm?type=command&param=udevice&idx=253&nvalue=0'}
+	commandArray[1]={['Front Door Lock']='Closed'}
 	commandArray[2]={['Front Door Lock']='Open AFTER 30'}
         print('Locking Front Door')
 end
