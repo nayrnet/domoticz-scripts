@@ -63,14 +63,14 @@ end
 if (mins == timeofday['SunsetInMinutes'] + 60) then
         print("Switching ALPR Camera to Night Profile.")
         commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
-        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.475207&zoom=0' }
-        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=1' }
+        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.495868&zoom=0' }
+        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=1' }
         commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=1' }
 elseif (mins == timeofday['SunriseInMinutes'] - 60) then
         print("Switching ALPR Camera to Day Profile.")
         commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
         commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.475207&zoom=0' }
-        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=0' }
+        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=0' }
         commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=0' }
 end
 
