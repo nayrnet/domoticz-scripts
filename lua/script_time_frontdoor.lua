@@ -10,10 +10,9 @@ if (otherdevices['Front Door'] == 'Open') and ((doorChanged > 299) and (doorChan
 	os.execute('ogg123 -q ~/audio/alert-prefix.ogg ~/audio/frontdoor.ogg')
 end
 
--- Force Door to lock after 5mins (zwave funkyness)
+-- Force Door to lock after 5mins
 if (otherdevices['Front Door'] == 'Closed') and ((doorChanged > 299) and (doorChanged < 361)) then
-	commandArray[1]={['Front Door Lock']='Closed'}
-	commandArray[2]={['Front Door Lock']='Open AFTER 30'}
+	commandArray['Front Door Lock']='On'
         print('Locking Front Door')
 end
 return commandArray
