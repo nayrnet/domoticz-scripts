@@ -6,13 +6,13 @@ commandArray = {}
 libs = require("libs")	-- Include common functions
 
 -- Garage Temp OSD
-GARtemp = (otherdevices_temperature['Garage'] * 9) / 5 + 32
-GARtemp = libs.round(GARtemp,1)
-if (GARtemp ~= tonumber(uservariables["GARTemp"])) then
-        commandArray["Variable:GARTemp"]=tostring(GARtemp)	
-        commandArray['OpenURL'] = uservariables['camLogin'] .. '@192.168.42.25/cgi-bin/configManager.cgi?action=setConfig&VideoWidget[0].CustomTitle[1].Text=' .. tostring(GARtemp) .. '°F'
-	print('Updating temp on garage osd')
-end
+--GARtemp = (otherdevices_temperature['Garage'] * 9) / 5 + 32
+--GARtemp = libs.round(GARtemp,1)
+--if (GARtemp ~= tonumber(uservariables["GARTemp"])) then
+--        commandArray["Variable:GARTemp"]=tostring(GARtemp)	
+--        commandArray['OpenURL'] = uservariables['camLogin'] .. '@192.168.42.25/cgi-bin/configManager.cgi?action=setConfig&VideoWidget[0].CustomTitle[1].Text=' .. tostring(GARtemp) .. '°F'
+--	print('Updating temp on garage osd')
+--end
 
 -- Outdoor Temp OSD
 ODtemp = (otherdevices_temperature['Online Weather'] * 9) / 5 + 32
@@ -53,43 +53,38 @@ end
 
 
 -- Day/Night Video Profile Switching
-if (mins >= timeofday['SunsetInMinutes'] + 10) and (tonumber(uservariables["ODCam-Profile"]) ~= 1) then
+if (mins >= timeofday['SunsetInMinutes']) and (tonumber(uservariables["ODCam-Profile"]) ~= 1) then
 	print("Switching Outdoor Cameras to Night Profile.")
 	commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
 	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2' }
 	commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@south-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
 	commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@east-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
-        commandArray[5]={ ["Variable:ODCam-Profile"] = "1" }
-	-- WestPTZ needs to be kicked into BackLight mode at night
-	-- commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=1' }
-elseif (mins >= timeofday['SunriseInMinutes'] - 10) and (tonumber(uservariables["ODCam-Profile"]) ~= 0) and (mins < timeofday['SunsetInMinutes'] + 10) then
+        commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.495868&zoom=0' }
+        commandArray[6]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=1' }
+        commandArray[7]={ ["Variable:ODCam-Profile"] = "1" }
+elseif (mins >= timeofday['SunriseInMinutes']) and (tonumber(uservariables["ODCam-Profile"]) ~= 0) and (mins < timeofday['SunsetInMinutes']) then
 	print("Switching Outdoor Cameras to Day Profile.")
 	commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
 	commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@north-ptc/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
 	commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@south-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
 	commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@east-ipc/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
-        commandArray[5]={ ["Variable:ODCam-Profile"] = "0" }
-	-- WestPTZ needs to be kicked into BackLight mode at night
-	-- commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@west-ptz/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][2].Backlight=0' }
+        commandArray[5]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.454545&zoom=0' }
+        commandArray[6]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=0' }
+        commandArray[7]={ ["Variable:ODCam-Profile"] = "0" }
 end
 
 -- ALPR Day/Night Video Profile Switching
-if (mins >= timeofday['SunsetInMinutes'] - 60) and (tonumber(uservariables["ALPR-Profile"]) ~= 1) then
+if (mins >= timeofday['SunsetInMinutes'] - 30) and (tonumber(uservariables["ALPR-Profile"]) < 1) then
         print("Switching ALPR Camera to Night Profile.")
-        commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=3' }
-        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.516529&zoom=0' }
-        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=1' }
-        commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=1' }
-        commandArray[5]={ ["Variable:ALPR-Profile"] = "1" }
-elseif (mins >= timeofday['SunriseInMinutes'] + 55) and (tonumber(uservariables["ALPR-Profile"]) ~= 0) and (mins < timeofday['SunsetInMinutes'] - 60) then
+        commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=1' }
+        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=0' }
+        commandArray[3]={ ["Variable:ALPR-Profile"] = "1" }
+elseif (mins >= timeofday['SunriseInMinutes'] + 30) and (tonumber(uservariables["ALPR-Profile"]) > 0) and (mins < timeofday['SunsetInMinutes'] - 30) then
         print("Switching ALPR Camera to Day Profile.")
-        commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInOptions[0].NightOptions.SwitchMode=0' }
-        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/devVideoInput.cgi?action=adjustFocus&focus=0.475207&zoom=0' }
-        commandArray[3]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=0' }
-        commandArray[4]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&AlarmOut[0].Mode=0' }
-        commandArray[5]={ ["Variable:ALPR-Profile"] = "0" }
+        commandArray[1]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=0' }
+        commandArray[2]={ ['OpenURL'] = uservariables['camLogin'] .. '@alpr/cgi-bin/configManager.cgi?action=setConfig&VideoInExposure[0][0].Backlight=1' }
+        commandArray[3]={ ["Variable:ALPR-Profile"] = "0" }
 end
-
 
 return commandArray
 
